@@ -22,5 +22,12 @@ export default Service.extend({
     let json = await res.json()
 
     return json;
+  },
+
+  async getPhotosByPage(page) {
+    let res = await get(this, 'unsplash').photos.listPhotos(page)
+    let json = await res.json()
+
+    return json;
   }
 });
