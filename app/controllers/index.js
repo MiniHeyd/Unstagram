@@ -3,25 +3,31 @@ import { inject as service } from '@ember/service';
 import { get, set } from '@ember/object';
 
 export default Controller.extend({
-  likes: 0,
-  photographer: null,
-  photoUrl: 'http://placehold.it/200x200',
+  photos: [],
+  page: 1,
 
   unsplash: service(),
 
   init() {
     this._super(...arguments);
-    this.send('getPhoto');
+    this.send('getPhotos');
   },
 
   actions: {
-    async getPhoto() {
-      let json = await get(this, 'unsplash').getRandomPhoto();
-      let photoUrl = json.urls.regular;
-      let { likes, user } = json;
-      set(this, 'likes', likes);
-      set(this, 'photoUrl', photoUrl);
-      set(this, 'photographer', user);
+    async getPhotos() {
+      let page = get(this, 'page');
+      let json = await get(this, 'unsplash').getPhotosByPage(page);
+      let photos = get(this, 'photos');
+      json.map(function(item){
+        let photoUrl = item.urls.regular;
+        let { likes, user } = item;
+        photos.pushObject({
+          likes: likes,
+          photoUrl: photoUrl,
+          photographer: user
+        });
+      });
+      this.incrementProperty('page');
     }
   }
 });
