@@ -8,9 +8,6 @@ const {
 } = Ember;
 
 export default Component.extend({
-  likes: 0,
-  photographer: null,
-  photoUrl: null,
   buttonLabel: computed('page', function() {
     return 'Get Page ' + get(this, 'page');
   }),
