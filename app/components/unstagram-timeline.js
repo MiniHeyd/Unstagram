@@ -14,13 +14,19 @@ export default Component.extend({
 
   didInsertElement() {
     let scrollTimeout,
-        offset = window.innerHeight;
+        offset = window.innerHeight*2,
+        loadMore = true;
     let scroll = _.debounce(() => {
       let scrollTop = window.pageYOffset || document.documentElement.scrollTop,
           windowHeight = window.innerHeight,
           documentHeight = document.documentElement.scrollHeight,
           trigger = (scrollTop + windowHeight) >= (documentHeight - offset);
-      if(trigger) this.sendAction('getPhotos');
+      if(trigger && loadMore) {
+        loadMore = false;
+        this.sendAction('getPhotos');
+      } else {
+        loadMore = true;
+      }
     });
     window.onscroll = scroll;
   }
