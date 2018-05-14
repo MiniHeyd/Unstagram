@@ -39,7 +39,7 @@ export default Service.extend({
     if( page == (preloadedLength - 1) || ! preloadedLength ) {
       this.preloadData();
       if( ! preloadedLength ) {
-        let res = await get(this, 'unsplash').photos.listPhotos(page, pageLimit);
+        let res = await get(this, 'unsplash').photos.listPhotos(page, get(this, 'pageLimit'));
         let json = await res.json();
         return json;
       }
