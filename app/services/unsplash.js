@@ -35,9 +35,16 @@ export default Service.extend({
   },
 
   async getPhotosByPage(page) {
-    let res = await get(this, 'unsplash').photos.listPhotos(page)
-    let json = await res.json()
-
-    return json;
+    let preloadedLength = get(this, 'preloaded.length');
+    if( page == (preloadedLength - 1) || ! preloadedLength ) {
+      this.preloadData();
+      if( ! preloadedLength ) {
+        let res = await get(this, 'unsplash').photos.listPhotos(page, 10);
+        let json = await res.json();
+        return json;
+      }
+    }
+    let preloaded = get(this, 'preloaded');
+    return preloaded[page];
   }
 });
