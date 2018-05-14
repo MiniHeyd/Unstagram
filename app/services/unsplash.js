@@ -27,7 +27,7 @@ export default Service.extend({
     let page = get(this, 'preloadPage');
     let res = await get(this, 'unsplash').photos.listPhotos(page, (pageLimit * 3));
     let json = await res.json();
-    let paginated = _.chunk(json, 10);
+    let paginated = _.chunk(json, pageLimit);
     let existing = get(this, 'preloaded');
     let preloaded = _.concat(existing, paginated);
     set(this, 'preloaded', preloaded);
@@ -39,7 +39,7 @@ export default Service.extend({
     if( page == (preloadedLength - 1) || ! preloadedLength ) {
       this.preloadData();
       if( ! preloadedLength ) {
-        let res = await get(this, 'unsplash').photos.listPhotos(page, 10);
+        let res = await get(this, 'unsplash').photos.listPhotos(page, pageLimit);
         let json = await res.json();
         return json;
       }
