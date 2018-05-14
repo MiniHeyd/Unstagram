@@ -22,8 +22,8 @@ export default Controller.extend({
         let photoUrl = item.urls.regular;
         let { likes, user } = item;
         photos.pushObject({
-          likes: likes,
-          photoUrl: photoUrl,
+          likes,
+          photoUrl,
           photographer: user
         });
       });
