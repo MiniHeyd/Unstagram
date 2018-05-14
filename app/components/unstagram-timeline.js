@@ -1,10 +1,19 @@
-import Component from '@ember/component';
+import Ember from 'ember';
 import _ from 'lodash';
+
+const {
+  Component,
+  computed,
+  get
+} = Ember;
 
 export default Component.extend({
   likes: 0,
   photographer: null,
   photoUrl: null,
+  buttonLabel: computed('page', function() {
+    return 'Get Page ' + get(this, 'page');
+  }),
 
   didInsertElement() {
     let scrollTimeout,
